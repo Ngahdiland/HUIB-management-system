@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Hibmat University</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+    .form-desc {
+        color: #555;
+        font-size: 0.95em;
+        margin-bottom: 1em;
+    }
+    .admin-layout {
+        display: flex;
+        min-height: 80vh;
+    }
+    .admin-menu {
+        width: 220px;
+        background: #003366;
+        color: #fff;
+        border-radius: 10px 0 0 10px;
+        padding: 2rem 0.5rem 1rem 0.5rem;
+        box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+        min-height: 100%;
+        position: fixed;
+        top: 80px;
+        left: 0;
+        height: calc(100vh - 80px);
+        z-index: 1001;
+        overflow-y: auto;
+    }
+    .admin-menu ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .admin-menu li {
+        margin-bottom: 1.2em;
+    }
+    .admin-menu a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 1.1em;
+        display: block;
+        padding: 0.5em 1em;
+        border-radius: 5px;
+        transition: background 0.2s;
+    }
+    .admin-menu a.active, .admin-menu a:hover {
+        background: #2e7d32;
+        color: #fff;
+    }
+    .admin-menu .logout-btn {
+        width: 90%;
+        margin: 1.5em auto 0 auto;
+        background: #c62828;
+        color: #fff;
+        border: none;
+        padding: 0.7em 0;
+        border-radius: 5px;
+        font-size: 1.1em;
+        cursor: pointer;
+        display: block;
+    }
+    .admin-dashboard {
+        flex: 1 1 0;
+        max-width: 1000px;
+        margin: 0 auto;
+        background: none;
+        border-radius: 0;
+        padding: 2rem 0 1rem 2rem;
+        margin-left: 220px;
+        margin-top: 90px;
+    }
+    .admin-section {
+        flex: 1 1 300px;
+        min-width: 300px;
+        background: #f4f6fa;
+        border-radius: 8px;
+        padding: 1.5rem 1rem;
+        margin-bottom: 25px;
+        box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+        z-index: 100;
+    }
+    .admin-section h3 {
+        margin-top: 0;
+    }
+    input[type="text"], textarea {
+        margin-bottom: 0.7em;
+    }
+    #teacherList, #studentList, #newsList {
+        max-height: 200px;
+        overflow-y: auto;
+        background: #fff;
+        border-radius: 5px;
+        padding: 0.5em 1em;
+        border: 1px solid #e0e0e0;
+    }
+    #teacherList li, #studentList li, #newsList li {
+        margin-bottom: 0.5em;
+        padding-bottom: 0.3em;
+        border-bottom: 1px solid #e0e0e0;
+    }
+    #teacherList li:last-child, #studentList li:last-child, #newsList li:last-child {
+        border-bottom: none;
+    }
+    .card {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        padding: 2rem 1.5rem 1.5rem 1.5rem;
+        margin-bottom: 1.5rem;
+        transition: box-shadow 0.2s;
+    }
+    .card:hover {
+        box-shadow: 0 4px 16px rgba(0,51,102,0.10);
+    }
+    .form-row {
+        display: flex;
+        gap: 1em;
+        flex-wrap: wrap;
+        margin-bottom: 1em;
+    }
+    .form-row input {
+        flex: 1 1 150px;
+    }
+    .primary-btn {
+        background: #003366;
+        color: #fff;
+        border: none;
+        padding: 0.7em 2em;
+        border-radius: 5px;
+        font-size: 1.1em;
+        cursor: pointer;
+        margin-top: 0.5em;
+        transition: background 0.2s;
+    }
+    .primary-btn:hover {
+        background: #2e7d32;
+    }
+    .list-display {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        background: #f8fafc;
+        border-radius: 6px;
+        border: 1px solid #e0e0e0;
+        max-height: 220px;
+        overflow-y: auto;
+    }
+    .list-display li {
+        padding: 0.7em 0.5em;
+        border-bottom: 1px solid #e0e0e0;
+        margin-bottom: 0;
+        font-size: 1.05em;
+        display: flex;
+        flex-direction: column;
+        gap: 0.2em;
+    }
+    .list-display li:last-child {
+        border-bottom: none;
+    }
+    .list-display strong {
+        color: #003366;
+    }
+    .dashboard-grid {
+        display: flex;
+        gap: 2em;
+        margin-bottom: 2em;
+        flex-wrap: wrap;
+    }
+    .dashboard-stat {
+        background: #f4f6fa;
+        border-radius: 8px;
+        padding: 1.2em 2em;
+        box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+        min-width: 180px;
+        text-align: center;
+    }
+    .stat-value {
+        font-size: 2.2em;
+        font-weight: bold;
+        color: #003366;
+        margin-top: 0.3em;
+    }
+    .dashboard-chart {
+        background: #f8fafc;
+        border-radius: 8px;
+        padding: 1.5em 1em;
+        box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+        margin-top: 1em;
+    }
+    .admin-layout, .admin-dashboard {
+        background: none !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+    }
+    .main-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        z-index: 1002;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #fff;
+        padding: 0.7em 2em 0.7em 1em;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        border-bottom: 1px solid #e0e0e0;
+        margin-bottom: 0;
+        height: 80px;
+    }
+    .header-section {
+        display: flex;
+        align-items: center;
+    }
+    .header-logo {
+        flex: 0 0 60px;
+    }
+    .school-logo {
+        height: 48px;
+        width: 48px;
+        object-fit: contain;
+    }
+    .header-title {
+        flex: 1 1 auto;
+        flex-direction: column;
+        text-align: center;
+        color: #003366;
+    }
+    .header-title h1 {
+        font-size: 1.5em;
+        margin: 0;
+        font-weight: 700;
+    }
+    .header-title h2 {
+        font-size: 1em;
+        margin: 0;
+        font-weight: 400;
+        color: #2e7d32;
+    }
+    .header-icons {
+        flex: 0 0 80px;
+        justify-content: flex-end;
+        gap: 1em;
+    }
+    .header-icon {
+        margin-left: 0.7em;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        transition: background 0.2s, box-shadow 0.2s;
+        border-radius: 50%;
+        padding: 0.2em;
+    }
+    .header-icon:hover {
+        background: #e0e0e0;
+    }
+    /* Sticky admin info section styles */
+    .admin-info-sticky {
+        position: sticky;
+        top: 100px;
+        align-self: flex-start;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        padding: 1.5rem 1.2rem;
+        min-width: 260px;
+        max-width: 320px;
+        margin-left: 2em;
+        margin-bottom: 2em;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+    }
+    .admin-info-sticky h4 {
+        margin-top: 0;
+        color: #003366;
+        font-size: 1.15em;
+        font-weight: 700;
+    }
+    .admin-info-avatar {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background: #e0e0e0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5em;
+        color: #003366;
+        margin-bottom: 0.5em;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .admin-info-details {
+        text-align: center;
+        color: #333;
+        font-size: 1.05em;
+    }
+    .admin-info-role {
+        color: #2e7d32;
+        font-weight: 600;
+        font-size: 1em;
+    }
+    .admin-info-panel {
+        position: fixed;
+        top:110px;
+        right: 0;
+        width: 250px; /* reduced from 270px */
+        z-index: 1001;
+        padding: 1.2em 0.5em 1em 0.5em; /* slightly reduced padding */
+        background: #f4f6fa;
+        border-radius: 0 0 0 12px;
+        box-shadow: -2px 2px 12px rgba(0,0,0,0.06);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 200px; /* reduced min-height */
+        transition: right 0.2s;
+    }
+    .admin-info-card {
+        width: 100%;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        padding: 1em 0.5em 1em 0.5em; /* reduced padding */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .admin-avatar {
+        margin-bottom: 0.7em;
+    }
+    .admin-info-name {
+        font-size: 1.05em;
+        font-weight: bold;
+        color: #003366;
+        margin-bottom: 0.15em;
+    }
+    .admin-info-email {
+        font-size: 0.9em;
+        color: #2e7d32;
+        margin-bottom: 0.4em;
+        word-break: break-all;
+        text-align: center;
+    }
+    .admin-info-meta {
+        font-size: 0.88em;
+        color: #555;
+        text-align: center;
+    }
+    @media (max-width: 900px) {
+        .admin-menu {
+            width: 60px;
+            padding: 1rem 0.2rem 1rem 0.2rem;
+        }
+        .admin-dashboard {
+            margin-left: 60px;
+        }
+        .main-header {
+            padding: 0.7em 0.5em 0.7em 0.5em;
+        }
+        .admin-info-sticky {
+            display: none;
+        }
+    }
+    @media (max-width: 1100px) {
+        .admin-info-sticky {
+            display: none;
+        }
+    }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-section header-logo">
+            <img src="images/logo.png" alt="Hibmat Logo" class="school-logo">
+        </div>
+        <div class="header-section header-title">
+            <h1>Hibmat University Institute of Buea</h1>
+            <h2>School Management System</h2>
+        </div>
+        <div class="header-section header-icons">
+            <span class="header-icon" title="Notifications">
+                <svg width="28" height="28" fill="#003366" viewBox="0 0 24 24"><path d="M12 24a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 24zm6.36-6V11c0-3.07-1.63-5.64-4.5-6.32V4a1.5 1.5 0 0 0-3 0v.68C7.27 5.36 5.64 7.92 5.64 11v7l-1.64 1.64A1 1 0 0 0 5 21h14a1 1 0 0 0 .7-1.7L18.36 18zM18 19H6v-8c0-2.97 1.63-5.43 4.5-6.32V4a.5.5 0 0 1 1 0v.68C16.37 5.57 18 8.03 18 11v8z"></path></svg>
+            </span>
+            <span class="header-icon" title="Profile">
+                <svg width="28" height="28" fill="#003366" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M12 14c-4.418 0-8 1.79-8 4v2h16v-2c0-2.21-3.582-4-8-4z"/></svg>
+            </span>
+        </div>
+    </header>
+    <div style="display: flex; min-height: 80vh;">
+        <nav class="admin-menu">
+            <ul>
+                <li><a href="#" data-section="dashboard">Dashboard Overview</a></li>
+                <li><a href="#" data-section="lecturer">Lecturer Management</a></li>
+                <li><a href="#" data-section="news">School News</a></li>
+                <li><a href="#" data-section="teachers">All Teachers</a></li>
+                <li><a href="#" data-section="students">All Students</a></li>
+                <li><a href="#" data-section="export">Export Data</a></li>
+                <li><a href="#" data-section="guide">Usage Guide</a></li>
+                <li><button class="logout-btn" onclick="window.location.href='index.html'">Logout</button></li>
+            </ul>
+        </nav>
+        <main class="admin-dashboard" style="background: none; box-shadow: none; border-radius: 0; padding: 2rem 0 1rem 2rem;">
+            <section class="admin-section" id="section-dashboard">
+                <div class="card">
+                    <h3>Dashboard Overview</h3>
+                    <div class="dashboard-grid">
+                        <div class="dashboard-stat">
+                            <h4>Total Students</h4>
+                            <div id="totalStudents" class="stat-value">0</div>
+                        </div>
+                        <div class="dashboard-stat">
+                            <h4>Total Teachers</h4>
+                            <div id="totalTeachers" class="stat-value">0</div>
+                        </div>
+                        <div class="dashboard-stat">
+                            <h4>Total Courses</h4>
+                            <div id="totalCourses" class="stat-value">0</div>
+                        </div>
+                    </div>
+                    <div class="dashboard-chart">
+                        <h4>Attendance Analysis (Yearly)</h4>
+                        <canvas id="attendanceChart" width="400" height="180"></canvas>
+                    </div>
+                </div>
+            </section>
+            <section class="admin-section" id="section-lecturer" style="display:none;">
+                <div class="card">
+                    <h3>Generate Lecturer Access Code</h3>
+                    <form id="genCodeForm">
+                        <div class="form-row">
+                            <input type="text" id="lecturerName" placeholder="Lecturer Name" required />
+                            <input type="text" id="courseCode" placeholder="Course Code (e.g., CSE101)" required />
+                            <input type="text" id="courseName" placeholder="Course Name (e.g., Introduction to CS)" required />
+                        </div>
+                        <button type="submit" class="primary-btn">Generate & Assign</button>
+                    </form>
+                    <p class="form-desc">Assign a new lecturer to a course. The system will generate a unique access code for the lecturer. This code is required for the lecturer to log in and manage their course(s).</p>
+                </div>
+            </section>
+            <section class="admin-section" id="section-news" style="display:none;">
+                <div class="card">
+                    <h3>Post School News</h3>
+                    <form id="newsForm">
+                        <input type="text" id="newsTitle" placeholder="Title (e.g., Semester Begins)" required />
+                        <textarea id="newsContent" placeholder="Content (e.g., The new semester starts on June 1st...)" required style="width:100%;height:60px;"></textarea>
+                        <button type="submit" class="primary-btn">Post News</button>
+                    </form>
+                    <p class="form-desc">Share important announcements, events, or updates with all students and staff. News will appear on all dashboards.</p>
+                    <h3>Recent News</h3>
+                    <ul id="newsList" class="list-display"></ul>
+                </div>
+            </section>
+            <section class="admin-section" id="section-teachers" style="display:none;">
+                <div class="card">
+                    <h3>All Teachers</h3>
+                    <input type="text" id="teacherSearch" placeholder="Search teachers by name or code..." />
+                    <ul id="teacherList" class="list-display"></ul>
+                    <p class="form-desc">Below is a list of all registered lecturers, their access codes, and the courses they are assigned to. Share the access code with the lecturer for system login.</p>
+                </div>
+            </section>
+            <section class="admin-section" id="section-students" style="display:none;">
+                <div class="card">
+                    <h3>All Students</h3>
+                    <input type="text" id="studentSearch" placeholder="Search students by name or matricule..." />
+                    <ul id="studentList" class="list-display"></ul>
+                    <p class="form-desc">Below is a list of all registered students and their matricule numbers. You can use this list to verify student registrations and monitor enrollment.</p>
+                </div>
+            </section>
+            <section class="admin-section" id="section-export" style="display:none;">
+                <div class="card">
+                    <h3>Export Data</h3>
+                    <button id="exportBtn" class="primary-btn">Export All Data (JSON)</button>
+                </div>
+            </section>
+            <section class="admin-section" id="section-guide" style="display:none;">
+                <div class="card">
+                    <h3>System Usage Guide</h3>
+                    <ul>
+                        <li>To add a new lecturer, fill in their name and course details, then click <b>Generate & Assign</b>.</li>
+                        <li>To post news, enter a title and content, then click <b>Post News</b>. News is visible to all users.</li>
+                        <li>Use the lists below to view all teachers and students currently in the system.</li>
+                        <li>Click <b>Logout</b> to return to the main login page.</li>
+                    </ul>
+                </div>
+            </section>
+            <!-- Example sections for demonstration -->
+            <section class="admin-section" id="section-example-teachers" style="display:none;">
+                <div class="card">
+                    <h3>Example Teachers</h3>
+                    <ul id="exampleTeacherList" class="list-display"></ul>
+                </div>
+            </section>
+            <section class="admin-section" id="section-example-students" style="display:none;">
+                <div class="card">
+                    <h3>Example Students</h3>
+                    <ul id="exampleStudentList" class="list-display"></ul>
+                </div>
+            </section>
+            <section class="admin-section" id="section-example-courses" style="display:none;">
+                <div class="card">
+                    <h3>Example Courses</h3>
+                    <ul id="exampleCourseList" class="list-display"></ul>
+                </div>
+            </section>
+            <section class="admin-section" id="section-example-departments" style="display:none;">
+                <div class="card">
+                    <h3>Departments & Courses</h3>
+                    <ul id="exampleDepartmentList" class="list-display"></ul>
+                </div>
+            </section>
+        </main>
+        <aside class="admin-info-panel" id="adminInfoPanel">
+            <div class="admin-info-card">
+                <div class="admin-avatar">
+                    <svg width="60" height="60" viewBox="0 0 60 60" fill="none"><circle cx="30" cy="30" r="30" fill="#003366"/><text x="50%" y="54%" text-anchor="middle" fill="#fff" font-size="28" font-family="Arial" dy=".3em">A</text></svg>
+                </div>
+                <div class="admin-info-details">
+                    <div class="admin-info-name" id="adminName">Admin</div>
+                    <div class="admin-info-email" id="adminEmail">admin@hibmat.edu</div>
+                    <div class="admin-info-meta">
+                        <span id="adminLastLogin">Last login: --</span><br>
+                        <span id="adminContact">Contact: --</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+    <script src="app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    window.addEventListener('DOMContentLoaded', function() {
+        // Navigation functionality
+        document.querySelectorAll('.admin-menu a[data-section]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.admin-menu a').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+                const section = this.getAttribute('data-section');
+                document.querySelectorAll('.admin-section').forEach(sec => sec.style.display = 'none');
+                document.getElementById('section-' + section).style.display = '';
+                if (section === 'dashboard') renderDashboard();
+            });
+        });
+        // Default to dashboard section
+        document.querySelector('.admin-menu a[data-section="dashboard"]').classList.add('active');
+        document.querySelectorAll('.admin-section').forEach(sec => sec.style.display = 'none');
+        document.getElementById('section-dashboard').style.display = '';
+        // Populate teacher and student lists
+        if (typeof data !== 'undefined') {
+            // Teacher search
+            document.getElementById('teacherSearch').addEventListener('input', function() {
+                const val = this.value.toLowerCase();
+                const teacherList = document.getElementById('teacherList');
+                teacherList.innerHTML = data.teachers.filter(t => t.name.toLowerCase().includes(val) || t.accessCode.toLowerCase().includes(val)).map(t => `<li>${t.name} (Access Code: ${t.accessCode})<br><small>Courses: ${(t.courses||[]).join(', ')}</small></li>`).join('') || '<li>No teachers found.</li>';
+            });
+            // Student search
+            document.getElementById('studentSearch').addEventListener('input', function() {
+                const val = this.value.toLowerCase();
+                const studentList = document.getElementById('studentList');
+                studentList.innerHTML = data.students.filter(s => s.name.toLowerCase().includes(val) || s.matricule.toLowerCase().includes(val)).map(s => `<li>${s.name} (Matricule: ${s.matricule})<br><small>Courses: ${(s.courses||[]).join(', ')}</small></li>`).join('') || '<li>No students found.</li>';
+            });
+            // Populate lists
+            const teacherList = document.getElementById('teacherList');
+            teacherList.innerHTML = data.teachers.map(t => `<li>${t.name} (Access Code: ${t.accessCode})<br><small>Courses: ${(t.courses||[]).join(', ')}</small></li>`).join('') || '<li>No teachers yet.</li>';
+            const studentList = document.getElementById('studentList');
+            studentList.innerHTML = data.students.map(s => `<li>${s.name} (Matricule: ${s.matricule})<br><small>Courses: ${(s.courses||[]).join(', ')}</small></li>`).join('') || '<li>No students yet.</li>';
+            // News
+            const newsList = document.getElementById('newsList');
+            newsList.innerHTML = (data.news||[]).slice(0,5).map(n => `<li><strong>${n.title}</strong>: ${n.content}</li>`).join('') || '<li>No news yet.</li>';
+            // Export
+            document.getElementById('exportBtn').addEventListener('click', function() {
+                const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'hibmat_school_data.json';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+        }
+        // Set dashboard stats to reflect 10 teachers and 345 students and 45 courses
+        function renderDashboard() {
+            document.getElementById('totalStudents').textContent = 345;
+            document.getElementById('totalTeachers').textContent = 10;
+            document.getElementById('totalCourses').textContent = 45;
+            // Attendance analysis (dummy data for now)
+            const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+            // Simulate attendance: random between 60% and 100% of students present each month
+            const attendance = months.map(() => Math.round((0.6 + 0.4 * Math.random()) * 345));
+            const ctx = document.getElementById('attendanceChart').getContext('2d');
+            if (window.attendanceChartInstance) window.attendanceChartInstance.destroy();
+            window.attendanceChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: months,
+                    datasets: [{
+                        label: 'Attendance',
+                        data: attendance,
+                        borderColor: '#003366',
+                        backgroundColor: 'rgba(0,51,102,0.08)',
+                        fill: true,
+                        tension: 0.3,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#2e7d32',
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, title: { display: true, text: 'Students Present' } },
+                        x: { title: { display: true, text: 'Month' } }
+                    }
+                }
+            });
+        }
+        // Show dashboard by default
+        renderDashboard();
+        // Optionally, set admin info dynamically if available in data
+        if (typeof data !== 'undefined' && data.admin) {
+            document.getElementById('adminName').textContent = data.admin.name || 'Admin User';
+            document.getElementById('adminEmail').textContent = data.admin.email || 'admin@hibmat.edu';
+            document.getElementById('adminLastLogin').textContent = data.admin.lastLogin || 'May 28, 2025';
+        }
+        // Populate admin info panel
+        if (typeof data !== 'undefined' && data.admin) {
+            document.getElementById('adminName').textContent = data.admin.name || 'Admin';
+            document.getElementById('adminEmail').textContent = data.admin.email || 'admin@hibmat.edu';
+            document.getElementById('adminLastLogin').textContent = 'Last login: ' + (data.admin.lastLogin || '--');
+            document.getElementById('adminContact').textContent = 'Contact: ' + (data.admin.contact || '--');
+            // Set avatar initial
+            var initial = (data.admin.name||'A').charAt(0).toUpperCase();
+            document.querySelector('.admin-avatar text').textContent = initial;
+        }
+        // Example data for lecturers, students, courses, and departments
+        const exampleLecturers = [
+            { name: "Dr. Alice Nkwenti", accessCode: "LCT1001", courses: ["CSE101", "CSE201"] },
+            { name: "Mr. John Fonyuy", accessCode: "LCT1002", courses: ["MAT101"] },
+            { name: "Ms. Brenda Mbah", accessCode: "LCT1003", courses: ["ENG101", "ENG201"] }
+        ];
+        const exampleDepartments = [
+            { name: "Computer Science", code: "CSE", courses: ["CSE101", "CSE201"] },
+            { name: "Mathematics", code: "MAT", courses: ["MAT101"] },
+            { name: "English", code: "ENG", courses: ["ENG101", "ENG201"] }
+        ];
+        const exampleStudents = [
+            { name: "Samuel Taku", matricule: "STU2023001", department: "Computer Science", courses: ["CSE101", "MAT101"] },
+            { name: "Linda Fomum", matricule: "STU2023002", department: "English", courses: ["ENG101", "CSE101"] },
+            { name: "Peter Ndeh", matricule: "STU2023003", department: "Mathematics", courses: ["MAT101", "ENG201"] }
+        ];
+        const exampleCourses = [
+            { code: "CSE101", name: "Introduction to Computer Science", lecturer: "Dr. Alice Nkwenti", department: "Computer Science" },
+            { code: "CSE201", name: "Data Structures", lecturer: "Dr. Alice Nkwenti", department: "Computer Science" },
+            { code: "MAT101", name: "Calculus I", lecturer: "Mr. John Fonyuy", department: "Mathematics" },
+            { code: "ENG101", name: "English Composition", lecturer: "Ms. Brenda Mbah", department: "English" },
+            { code: "ENG201", name: "Advanced English", lecturer: "Ms. Brenda Mbah", department: "English" }
+        ];
+        // Render example lists in a visible section for demo
+        window.addEventListener('DOMContentLoaded', function() {
+            // Example: Render example lecturers
+            const exampleLecturerList = document.getElementById('exampleTeacherList');
+            exampleLecturerList.innerHTML = '';
+            exampleLecturers.forEach(l => {
+                const li = document.createElement('li');
+                li.innerHTML = `<strong>${l.name}</strong> (Code: ${l.accessCode})<br><small>Courses: ${l.courses.join(', ')}</small>`;
+                exampleLecturerList.appendChild(li);
+            });
+            // Example: Render example students (with department)
+            const exampleStudentList = document.getElementById('exampleStudentList');
+            exampleStudentList.innerHTML = '';
+            exampleStudents.forEach(s => {
+                const li = document.createElement('li');
+                li.innerHTML = `<strong>${s.name}</strong> (Matricule: ${s.matricule})<br><small>Department: ${s.department}<br>Courses: ${s.courses.join(', ')}</small>`;
+                exampleStudentList.appendChild(li);
+            });
+            // Example: Render example courses
+            const exampleCourseList = document.getElementById('exampleCourseList');
+            exampleCourseList.innerHTML = '';
+            exampleCourses.forEach(c => {
+                const li = document.createElement('li');
+                li.innerHTML = `<strong>${c.code}</strong>: ${c.name}<br><small>Lecturer: ${c.lecturer}<br>Department: ${c.department}</small>`;
+                exampleCourseList.appendChild(li);
+            });
+            // Example: Render departments and their courses
+            let deptSection = document.getElementById('section-example-departments');
+            if (!deptSection) {
+                deptSection = document.createElement('section');
+                deptSection.className = 'admin-section';
+                deptSection.id = 'section-example-departments';
+                deptSection.innerHTML = '<div class="card"><h3>Departments & Courses</h3><ul id="exampleDepartmentList" class="list-display"></ul></div>';
+                document.querySelector('.admin-dashboard').appendChild(deptSection);
+            }
+            const exampleDepartmentList = deptSection.querySelector('#exampleDepartmentList');
+            exampleDepartmentList.innerHTML = '';
+            exampleDepartments.forEach(d => {
+                const li = document.createElement('li');
+                li.innerHTML = `<strong>${d.name}</strong> (${d.code})<br><small>Courses: ${d.courses.join(', ')}</small>`;
+                exampleDepartmentList.appendChild(li);
+            });
+        });
+        // Show example sections for demonstration
+        document.getElementById('section-example-teachers').style.display = '';
+        document.getElementById('section-example-students').style.display = '';
+        document.getElementById('section-example-courses').style.display = '';
+        document.getElementById('section-example-departments').style.display = '';
+        // Optionally scroll to the teachers section for immediate visibility
+        // document.getElementById('section-example-teachers').scrollIntoView({behavior: 'smooth'});
+    });
+    </script>
+</body>
+</html>

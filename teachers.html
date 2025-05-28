@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard - Hibmat University</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-section header-logo">
+            <img src="images/logo.png" alt="Hibmat Logo" class="school-logo">
+        </div>
+        <div class="header-section header-title">
+            <h1>Hibmat University Institute of Buea</h1>
+            <h2>School Management System</h2>
+        </div>
+        <div class="header-section header-icons">
+            <span class="header-icon" title="Notifications">
+                <svg width="28" height="28" fill="#003366" viewBox="0 0 24 24"><path d="M12 24a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 24zm6.36-6V11c0-3.07-1.63-5.64-4.5-6.32V4a1.5 1.5 0 0 0-3 0v.68C7.27 5.36 5.64 7.92 5.64 11v7l-1.64 1.64A1 1 0 0 0 5 21h14a1 1 0 0 0 .7-1.7L18.36 18zM18 19H6v-8c0-2.97 1.63-5.43 4.5-6.32V4a.5.5 0 0 1 1 0v.68C16.37 5.57 18 8.03 18 11v8z"></path></svg>
+            </span>
+            <span class="header-icon" title="Profile">
+                <svg width="28" height="28" fill="#003366" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M12 14c-4.418 0-8 1.79-8 4v2h16v-2c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+            </span>
+        </div>
+    </header>
+    <main>
+        <section>
+            <h3>Your Courses</h3>
+            <ul id="teacherCourses"></ul>
+            <p class="form-desc">This section lists all the courses you are assigned to as a lecturer. If a course is missing, contact the admin for assignment.</p>
+        </section>
+        <section>
+            <h3>Students in Your Courses</h3>
+            <div id="studentsInCourses"></div>
+            <p class="form-desc">View all students enrolled in your courses. You can record or update their marks by clicking the <b>Record Mark</b> button next to each student.</p>
+        </section>
+        <section>
+            <h3>Teacher Usage Guide</h3>
+            <ul>
+                <li>Review your assigned courses in the list above.</li>
+                <li>For each course, see the list of enrolled students.</li>
+                <li>Click <b>Record Mark</b> to enter or update a student's CA and Exam marks.</li>
+                <li>Contact the admin if you need to be assigned to a new course or if you have access issues.</li>
+                <li>Click <b>Logout</b> to exit your account securely.</li>
+            </ul>
+        </section>
+        <button onclick="window.location.href='index.html'">Logout</button>
+    </main>
+    <script src="app.js"></script>
+    <script>
+    // Populate teacher dashboard (requires teacher access code in sessionStorage)
+    window.addEventListener('DOMContentLoaded', function() {
+        const teacherAccessCode = sessionStorage.getItem('teacherAccessCode');
+        if (!teacherAccessCode || typeof data === 'undefined') return;
+        const teacher = data.teachers.find(t => t.accessCode === teacherAccessCode);
+        if (!teacher) return;
+        // Courses
+        const courseList = teacher.courses.map(code => {
+            const course = data.courses.find(c => c.code === code);
+            return `<li>${course ? course.name : code}</li>`;
+        }).join('');
+        document.getElementById('teacherCourses').innerHTML = courseList || '<li>No courses assigned.</li>';
+        // Students in courses
+        let studentsHtml = '';
+        teacher.courses.forEach(code => {
+            const course = data.courses.find(c => c.code === code);
+            const students = data.students.filter(s => s.courses.includes(code));
+            studentsHtml += `<h5>${course ? course.name : code}</h5><ul>` +
+                (students.length ? students.map(s => `<li>${s.name} (${s.matricule}) <button onclick="recordMark('${s.matricule}','${code}')">Record Mark</button></li>`).join('') : '<li>No students enrolled.</li>') + '</ul>';
+        });
+        document.getElementById('studentsInCourses').innerHTML = studentsHtml;
+    });
+    </script>
+    <style>
+    .form-desc {
+        color: #555;
+        font-size: 0.95em;
+        margin-bottom: 1em;
+    }
+    .main-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #fff;
+        padding: 0.7em 2em 0.7em 1em;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        border-bottom: 1px solid #e0e0e0;
+        margin-bottom: 1.5em;
+    }
+    .header-section {
+        display: flex;
+        align-items: center;
+    }
+    .header-logo {
+        flex: 0 0 60px;
+    }
+    .school-logo {
+        height: 48px;
+        width: 48px;
+        object-fit: contain;
+    }
+    .header-title {
+        flex: 1 1 auto;
+        flex-direction: column;
+        text-align: center;
+        color: #003366;
+    }
+    .header-title h1 {
+        font-size: 1.5em;
+        margin: 0;
+        font-weight: 700;
+    }
+    .header-title h2 {
+        font-size: 1em;
+        margin: 0;
+        font-weight: 400;
+        color: #2e7d32;
+    }
+    .header-icons {
+        flex: 0 0 80px;
+        justify-content: flex-end;
+        gap: 1em;
+    }
+    .header-icon {
+        margin-left: 0.7em;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        transition: background 0.2s, box-shadow 0.2s;
+        border-radius: 50%;
+        padding: 0.2em;
+    }
+    .header-icon:hover {
+        background: #e0e0e0;
+    }
+    </style>
+</body>
+</html>

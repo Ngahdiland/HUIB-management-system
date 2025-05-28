@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Hibmat University</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+    .form-desc {
+        color: #555;
+        font-size: 0.95em;
+        margin-bottom: 1em;
+    }
+    .main-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #fff;
+        padding: 0.7em 2em 0.7em 1em;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        border-bottom: 1px solid #e0e0e0;
+        margin-bottom: 1.5em;
+    }
+    .header-section {
+        display: flex;
+        align-items: center;
+    }
+    .header-logo {
+        flex: 0 0 60px;
+    }
+    .school-logo {
+        height: 48px;
+        width: 48px;
+        object-fit: contain;
+    }
+    .header-title {
+        flex: 1 1 auto;
+        flex-direction: column;
+        text-align: center;
+        color: #003366;
+    }
+    .header-title h1 {
+        font-size: 1.5em;
+        margin: 0;
+        font-weight: 700;
+    }
+    .header-title h2 {
+        font-size: 1em;
+        margin: 0;
+        font-weight: 400;
+        color: #2e7d32;
+    }
+    .header-icons {
+        flex: 0 0 80px;
+        justify-content: flex-end;
+        gap: 1em;
+    }
+    .header-icon {
+        margin-left: 0.7em;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        transition: background 0.2s, box-shadow 0.2s;
+        border-radius: 50%;
+        padding: 0.2em;
+    }
+    .header-icon:hover {
+        background: #e0e0e0;
+    }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-section header-logo">
+            <img src="images/logo.png" alt="Hibmat Logo" class="school-logo">
+        </div>
+        <div class="header-section header-title">
+            <h1>Hibmat University Institute of Buea</h1>
+            <h2>School Management System</h2>
+        </div>
+        <div class="header-section header-icons">
+            <span class="header-icon" title="Notifications">
+                <svg width="28" height="28" fill="#003366" viewBox="0 0 24 24"><path d="M12 24a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 24zm6.36-6V11c0-3.07-1.63-5.64-4.5-6.32V4a1.5 1.5 0 0 0-3 0v.68C7.27 5.36 5.64 7.92 5.64 11v7l-1.64 1.64A1 1 0 0 0 5 21h14a1 1 0 0 0 .7-1.7L18.36 18zM18 19H6v-8c0-2.97 1.63-5.43 4.5-6.32V4a.5.5 0 0 1 1 0v.68C16.37 5.57 18 8.03 18 11v8z"></path></svg>
+            </span>
+            <span class="header-icon" title="Profile">
+                <svg width="28" height="28" fill="#003366" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M12 14c-4.418 0-8 1.79-8 4v2h16v-2c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+            </span>
+        </div>
+    </header>
+    <main>
+        <section>
+            <h3>Personal Information</h3>
+            <div id="studentInfo"></div>
+            <p class="form-desc">This section displays your personal details as registered in the system. Please contact the admin if any information is incorrect.</p>
+        </section>
+        <section>
+            <h3>Course Enrollment</h3>
+            <form id="enrollForm">
+                <input type="text" id="enrollCourseCode" placeholder="Course Code (e.g., CSE101)" required />
+                <button type="submit">Enroll</button>
+            </form>
+            <ul id="enrolledCourses"></ul>
+            <p class="form-desc">Enter the course code provided by your lecturer or admin to enroll in a course. Your enrolled courses will be listed below. You can only enroll in existing courses.</p>
+        </section>
+        <section>
+            <h3>Performance</h3>
+            <div id="performanceTable"></div>
+            <p class="form-desc">View your Continuous Assessment (CA) and Exam marks for each course. Marks are updated by your lecturers.</p>
+        </section>
+        <section>
+            <h3>Transcript</h3>
+            <pre id="transcript"></pre>
+            <p class="form-desc">Your academic transcript summarizes your performance over the years. Contact the admin for an official copy.</p>
+        </section>
+        <section>
+            <h3>Bonuses</h3>
+            <div id="bonuses"></div>
+            <p class="form-desc">Bonuses may be awarded for academic excellence or participation in school activities.</p>
+        </section>
+        <section>
+            <h3>School News</h3>
+            <ul id="newsList"></ul>
+            <p class="form-desc">Stay updated with the latest news and announcements from the school administration.</p>
+        </section>
+        <section>
+            <h3>Student Usage Guide</h3>
+            <ul>
+                <li>Check your personal information for accuracy.</li>
+                <li>Enroll in courses using the course code provided by your lecturer or admin.</li>
+                <li>Monitor your performance and transcript regularly.</li>
+                <li>Read school news for important updates and events.</li>
+                <li>Click <b>Logout</b> to exit your account securely.</li>
+            </ul>
+        </section>
+        <button onclick="window.location.href='index.html'">Logout</button>
+    </main>
+    <script src="app.js"></script>
+    <script>
+    // Populate student dashboard (requires student to be set in sessionStorage)
+    window.addEventListener('DOMContentLoaded', function() {
+        const studentMatricule = sessionStorage.getItem('studentMatricule');
+        if (!studentMatricule || typeof data === 'undefined') return;
+        const student = data.students.find(s => s.matricule === studentMatricule);
+        if (!student) return;
+        document.getElementById('studentInfo').innerHTML = `
+            <strong>Name:</strong> ${student.name}<br>
+            <strong>Matricule:</strong> ${student.matricule}<br>
+            <strong>Date of Birth:</strong> ${student.dob}<br>
+            <strong>Place of Birth:</strong> ${student.placeOfBirth}<br>
+            <strong>Age:</strong> ${student.age}
+        `;
+        // Enrolled courses
+        const enrolledCourses = student.courses.map(code => {
+            const course = data.courses.find(c => c.code === code);
+            return `<li>${course ? course.name : code}</li>`;
+        }).join('');
+        document.getElementById('enrolledCourses').innerHTML = enrolledCourses || '<li>No courses enrolled.</li>';
+        // Performance
+        const performanceRows = Object.entries(student.performance).map(([code, perf]) => {
+            const course = data.courses.find(c => c.code === code);
+            return `<tr><td>${course ? course.name : code}</td><td>${perf.ca || '-'} / 30</td><td>${perf.exam || '-'} / 70</td></tr>`;
+        }).join('');
+        document.getElementById('performanceTable').innerHTML = `<table style='width:100%'><tr><th>Course</th><th>CA</th><th>Exam</th></tr>${performanceRows || '<tr><td colspan=3>No data</td></tr>'}</table>`;
+        // Transcript
+        document.getElementById('transcript').textContent = JSON.stringify(student.transcript, null, 2) || 'No transcript yet.';
+        // Bonuses
+        document.getElementById('bonuses').textContent = student.bonuses;
+        // News
+        document.getElementById('newsList').innerHTML = data.news.map(n => `<li><strong>${n.title}</strong>: ${n.content}</li>`).join('') || '<li>No news.</li>';
+        // Enrollment
+        document.getElementById('enrollForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const code = document.getElementById('enrollCourseCode').value.trim();
+            if (!code) return;
+            if (!data.courses.find(c => c.code === code)) {
+                alert('Course not found!');
+                return;
+            }
+            if (student.courses.includes(code)) {
+                alert('Already enrolled!');
+                return;
+            }
+            student.courses.push(code);
+            saveData();
+            location.reload();
+        });
+    });
+    </script>
+</body>
+</html>
