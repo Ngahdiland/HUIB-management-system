@@ -1,0 +1,247 @@
+/* Student Login/Signup Page Styles */
+body {
+    background: #f4f6fa;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+.auth-container {
+    max-width: 600px;
+    width: 70%;
+    margin: 3em auto;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    padding: 2.5em 2em 2em 2em;
+}
+@media (max-width: 700px) {
+    .auth-container {
+        width: 90%;
+        max-width: 98vw;
+        padding: 1.5em 0.5em 1em 0.5em;
+    }
+}
+.auth-tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2em;
+}
+.auth-tab {
+    flex: 1;
+    padding: 0.7em 0;
+    background: #e0e0e0;
+    color: #003366;
+    border: none;
+    border-radius: 6px 6px 0 0;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.auth-tab.active {
+    background: #003366;
+    color: #fff;
+}
+.auth-form {
+    display: none;
+}
+.auth-form.active {
+    display: block;
+}
+.form-row {
+    display: flex;
+    gap: 1em;
+}
+.form-row input, .form-row select {
+    flex: 1 1 0;
+}
+.form-group {
+    margin-bottom: 1.2em;
+}
+label {
+    font-weight: 500;
+    color: #003366;
+    margin-bottom: 0.2em;
+    display: block;
+}
+input, select {
+    width: 100%;
+    padding: 0.5em;
+    border-radius: 4px;
+    border: 1px solid #e0e0e0;
+    font-size: 1em;
+}
+input[type="file"] {
+    border: none;
+    background: none;
+}
+.primary-btn {
+    background: #003366;
+    color: #fff;
+    border: none;
+    padding: 0.7em 2em;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    margin-top: 0.5em;
+    transition: background 0.2s;
+}
+.primary-btn:hover {
+    background: #2e7d32;
+}
+.form-note {
+    font-size: 0.95em;
+    color: #555;
+    margin-bottom: 1em;
+}
+
+/* Student Dashboard Styles */
+.student-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    padding: 1em 2em;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 1.5em;
+}
+.header-logo .school-logo {
+    height: 48px;
+    width: 48px;
+    object-fit: contain;
+}
+.header-title {
+    flex: 1 1 auto;
+    text-align: center;
+    color: #003366;
+}
+.header-title h1 {
+    font-size: 1.5em;
+    margin: 0;
+    font-weight: 700;
+}
+.header-title h2 {
+    font-size: 1em;
+    margin: 0;
+    font-weight: 400;
+    color: #2e7d32;
+}
+.logout-btn {
+    background: #c62828;
+    color: #fff;
+    border: none;
+    padding: 0.7em 2em;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.logout-btn:hover {
+    background: #a31515;
+}
+.student-main {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    padding: 2em 1.5em 2em 1.5em;
+}
+.student-nav {
+    display: flex;
+    gap: 1em;
+    margin-bottom: 2em;
+    justify-content: center;
+}
+.nav-btn {
+    background: #e0e0e0;
+    color: #003366;
+    border: none;
+    border-radius: 6px 6px 0 0;
+    font-size: 1.1em;
+    padding: 0.7em 1.5em;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.nav-btn.active {
+    background: #003366;
+    color: #fff;
+}
+.student-section {
+    display: none;
+    margin-bottom: 2em;
+}
+.student-section.active {
+    display: block;
+}
+.profile-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.profile-list li {
+    margin-bottom: 0.7em;
+    font-size: 1.08em;
+}
+.course-list {
+    list-style: none;
+    padding: 0;
+    margin: 1em 0 1.5em 0;
+}
+.course-list li {
+    margin-bottom: 0.5em;
+}
+.primary-btn {
+    background: #003366;
+    color: #fff;
+    border: none;
+    padding: 0.7em 2em;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    margin-top: 0.5em;
+    transition: background 0.2s;
+}
+.primary-btn:hover {
+    background: #2e7d32;
+}
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1em;
+    background: #f8fafc;
+    border-radius: 6px;
+    overflow: hidden;
+}
+.results-table th, .results-table td {
+    border: 1px solid #e0e0e0;
+    padding: 0.7em 0.5em;
+    text-align: center;
+}
+.results-table th {
+    background: #003366;
+    color: #fff;
+}
+.results-table td {
+    font-size: 1.05em;
+}
+.form-group {
+    margin-bottom: 1.2em;
+}
+textarea {
+    width: 100%;
+    padding: 0.5em;
+    border-radius: 4px;
+    border: 1px solid #e0e0e0;
+    font-size: 1em;
+    resize: vertical;
+}
+@media (max-width: 700px) {
+    .student-main {
+        width: 98vw;
+        padding: 1em 0.2em 1em 0.2em;
+    }
+    .student-header {
+        flex-direction: column;
+        gap: 0.7em;
+        padding: 1em 0.5em;
+    }
+}

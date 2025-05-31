@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Hibmat University</title>
+    <link rel="stylesheet" href="student.css">
+</head>
+<body>
+    <header class="student-header">
+        <div class="header-logo">
+            <img src="../images/logo.png" alt="Hibmat Logo" class="school-logo">
+        </div>
+        <div class="header-title">
+            <h1>Student Dashboard</h1>
+            <h2>Welcome, <span id="studentName">John Ndem</span></h2>
+        </div>
+        <button class="logout-btn" onclick="window.location.href='../index.html'">Logout</button>
+    </header>
+    <main class="student-main">
+        <nav class="student-nav">
+            <button class="nav-btn active" data-section="profile">Profile</button>
+            <button class="nav-btn" data-section="courses">Courses</button>
+            <button class="nav-btn" data-section="performance">Performance</button>
+            <button class="nav-btn" data-section="feedback">Feedback</button>
+        </nav>
+        <section id="section-profile" class="student-section active">
+            <h3>My Profile</h3>
+            <div class="profile-details" id="profileDetails">
+                <ul class="profile-list">
+                    <li><strong>Name:</strong> John Ndem</li>
+                    <li><strong>Matricule:</strong> STU2024001</li>
+                    <li><strong>Program:</strong> BSc Software Engineering</li>
+                    <li><strong>Department:</strong> Software Engineering</li>
+                    <li><strong>Date of Birth:</strong> 2003-03-15</li>
+                    <li><strong>Parent/Guardian:</strong> Mr. Ndem</li>
+                    <li><strong>Contact:</strong> +237 6XX XXX XXX</li>
+                </ul>
+            </div>
+        </section>
+        <section id="section-courses" class="student-section">
+            <h3>My Courses</h3>
+            <table class="results-table">
+                <thead>
+                    <tr><th>Course Code</th><th>Course Name</th><th>Instructor</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>SWE201</td><td>Software Engineering Principles</td><td>Dr. Alice Nkwenti</td></tr>
+                    <tr><td>SWE202</td><td>Object-Oriented Programming</td><td>Dr. Alice Nkwenti</td></tr>
+                    <tr><td>SWE203</td><td>Database Systems</td><td>Mr. John Fonyuy</td></tr>
+                    <tr><td>SWE204</td><td>Web Technologies</td><td>Ms. Brenda Mbah</td></tr>
+                    <tr><td>SWE205</td><td>Software Project Management</td><td>Dr. Peter Ndeh</td></tr>
+                    <tr><td>SWE206</td><td>Requirements Engineering</td><td>Ms. Linda Fomum</td></tr>
+                    <tr><td>SWE207</td><td>Software Testing & Quality Assurance</td><td>Mr. Samuel Taku</td></tr>
+                </tbody>
+            </table>
+        </section>
+        <section id="section-performance" class="student-section">
+            <h3>Performance</h3>
+            <table class="results-table">
+                <thead>
+                    <tr><th>Course Code</th><th>Course Name</th><th>1st CA<br>(/10)</th><th>2nd CA<br>(/10)</th><th>3rd CA<br>(/10)</th><th>Final Exam<br>(/70)</th><th>Total<br>(/100)</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>SWE201</td><td>Software Engineering Principles</td><td>8</td><td>9</td><td>7</td><td>60</td><td>84</td></tr>
+                    <tr><td>SWE202</td><td>Object-Oriented Programming</td><td>7</td><td>8</td><td>8</td><td>62</td><td>85</td></tr>
+                    <tr><td>SWE203</td><td>Database Systems</td><td>6</td><td>7</td><td>8</td><td>55</td><td>76</td></tr>
+                    <tr><td>SWE204</td><td>Web Technologies</td><td>9</td><td>8</td><td>9</td><td>65</td><td>91</td></tr>
+                    <tr><td>SWE205</td><td>Software Project Management</td><td>8</td><td>8</td><td>7</td><td>58</td><td>81</td></tr>
+                    <tr><td>SWE206</td><td>Requirements Engineering</td><td>7</td><td>7</td><td>8</td><td>60</td><td>82</td></tr>
+                    <tr><td>SWE207</td><td>Software Testing & Quality Assurance</td><td>8</td><td>9</td><td>8</td><td>63</td><td>88</td></tr>
+                </tbody>
+            </table>
+        </section>
+        <section id="section-feedback" class="student-section">
+            <h3>Leave a Complaint or Remark</h3>
+            <form id="feedbackForm">
+                <div class="form-group">
+                    <label for="feedbackType">Type</label>
+                    <select id="feedbackType" name="feedbackType" required>
+                        <option value="">Select type</option>
+                        <option value="complaint">Complaint</option>
+                        <option value="remark">Remark</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="feedbackTarget">Target (e.g., Teacher Name or Department)</label>
+                    <input type="text" id="feedbackTarget" name="feedbackTarget" placeholder="Optional">
+                </div>
+                <div class="form-group">
+                    <label for="feedbackText">Your Message</label>
+                    <textarea id="feedbackText" name="feedbackText" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="primary-btn">Submit</button>
+            </form>
+            <div id="feedbackSuccess" style="display:none;color:#2e7d32;margin-top:1em;">Thank you for your feedback!</div>
+        </section>
+    </main>
+    <script>
+        // Navigation
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.onclick = function() {
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                document.querySelectorAll('.student-section').forEach(sec => sec.classList.remove('active'));
+                document.getElementById('section-' + this.dataset.section).classList.add('active');
+            };
+        });
+        // Feedback form
+        document.getElementById('feedbackForm').onsubmit = function(e) {
+            e.preventDefault();
+            document.getElementById('feedbackSuccess').style.display = 'block';
+            this.reset();
+        };
+    </script>
+</body>
+</html>

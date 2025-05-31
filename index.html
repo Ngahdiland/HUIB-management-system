@@ -25,9 +25,24 @@
         </div>
     </header>
     <main id="main-content">
-        <!-- Login/Register form will be injected here by app.js -->
+        <section class="welcome-section">
+            <h2>Welcome to Hibmat University School Management System</h2>
+            <p>Please choose how you would like to continue:</p>
+            <div class="button-group">
+                <button id="continue-student">Continue as Student</button>
+                <button id="continue-teacher">Continue as Teacher</button>
+            </div>
+        </section>
     </main>
     <script src="app.js"></script>
+    <script>
+        document.getElementById('continue-student').onclick = function() {
+            window.location.href = 'student/studentlogin.html';
+        };
+        document.getElementById('continue-teacher').onclick = function() {
+            window.location.href = 'teachers/TeacherLogin.html';
+        };
+    </script>
     <style>
         .main-header {
             display: flex;
@@ -84,6 +99,21 @@
         }
         .header-icon:hover {
             background: #e0e0e0;
+        }
+        .welcome-section {
+            text-align: center;
+            margin-top: 2em;
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 2em;
+            margin-top: 2em;
+        }
+        .button-group button {
+            min-width: 180px;
+            font-size: 1.1em;
+            padding: 0.8em 1.2em;
         }
     </style>
 </body>

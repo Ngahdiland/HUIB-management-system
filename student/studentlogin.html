@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login / Signup - Hibmat University</title>
+    <link rel="stylesheet" href="../student/student.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-tabs">
+            <button class="auth-tab active" id="loginTab">Login</button>
+            <button class="auth-tab" id="signupTab">Sign Up</button>
+        </div>
+        <form id="loginForm" class="auth-form active" autocomplete="on">
+            <div class="form-group">
+                <label for="loginMatricule">Matricule Number</label>
+                <input type="text" id="loginMatricule" name="loginMatricule" required autocomplete="username">
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" name="loginPassword" required autocomplete="current-password">
+            </div>
+            <button type="submit" class="primary-btn">Login</button>
+        </form>
+        <form id="signupForm" class="auth-form" autocomplete="on" enctype="multipart/form-data">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" name="firstName" required>
+                </div>
+                <div class="form-group">
+                    <label for="middleName">Middle Name</label>
+                    <input type="text" id="middleName" name="middleName">
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" name="lastName" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="program">Preferred Program</label>
+                    <input type="text" id="program" name="program" required>
+                </div>
+                <div class="form-group">
+                    <label for="department">Preferred Department</label>
+                    <input type="text" id="department" name="department" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="dob">Date of Birth</label>
+                    <input type="date" id="dob" name="dob" required>
+                </div>
+                <div class="form-group">
+                    <label for="placeOfBirth">Place of Birth</label>
+                    <input type="text" id="placeOfBirth" name="placeOfBirth" required>
+                </div>
+                <div class="form-group">
+                    <label for="homeTown">Home Town</label>
+                    <input type="text" id="homeTown" name="homeTown" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="parentName">Parent/Guardian Name</label>
+                    <input type="text" id="parentName" name="parentName" required>
+                </div>
+                <div class="form-group">
+                    <label for="parentContact">Parent/Guardian Contact</label>
+                    <input type="tel" id="parentContact" name="parentContact" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="educationLevel">Qualification / Level of Education</label>
+                <input type="text" id="educationLevel" name="educationLevel" required>
+            </div>
+            <div class="form-group">
+                <label>Upload Documents</label>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="birthCert">Birth Certificate</label>
+                        <input type="file" id="birthCert" name="birthCert" accept="image/*,application/pdf" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="idCard">ID Card</label>
+                        <input type="file" id="idCard" name="idCard" accept="image/*,application/pdf" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="certificate">Highest Level Certificate</label>
+                        <input type="file" id="certificate" name="certificate" accept="image/*,application/pdf" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="passportPhoto">Passport Photo Size</label>
+                        <input type="file" id="passportPhoto" name="passportPhoto" accept="image/*" required>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="signupPassword">Create Password</label>
+                    <input type="password" id="signupPassword" name="signupPassword" required autocomplete="new-password">
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required autocomplete="new-password">
+                </div>
+            </div>
+            <button type="submit" class="primary-btn">Sign Up</button>
+        </form>
+    </div>
+    <script>
+        // Tab switching
+        document.getElementById('loginTab').onclick = function() {
+            this.classList.add('active');
+            document.getElementById('signupTab').classList.remove('active');
+            document.getElementById('loginForm').classList.add('active');
+            document.getElementById('signupForm').classList.remove('active');
+        };
+        document.getElementById('signupTab').onclick = function() {
+            this.classList.add('active');
+            document.getElementById('loginTab').classList.remove('active');
+            document.getElementById('signupForm').classList.add('active');
+            document.getElementById('loginForm').classList.remove('active');
+        };
+        // Password confirmation validation
+        document.getElementById('signupForm').onsubmit = function(e) {
+            var pass = document.getElementById('signupPassword').value;
+            var conf = document.getElementById('confirmPassword').value;
+            if (pass !== conf) {
+                alert('Passwords do not match!');
+                e.preventDefault();
+            }
+        };
+    </script>
+</body>
+</html>
